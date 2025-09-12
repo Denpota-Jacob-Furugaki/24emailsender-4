@@ -23,10 +23,15 @@ def generate_prospects_for_campaign(icp_description: str, num_companies: int = 2
     # Generate companies
     companies = generate_companies(filters, num_companies)
     
-    # Add some realistic contact names and titles
-    first_names = ["John", "Jane", "Mike", "Sarah", "David", "Lisa", "Alex", "Emma", "Chris", "Maria"]
-    last_names = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"]
-    titles = ["CEO", "CTO", "VP Marketing", "Head of Sales", "Founder", "Product Manager", "Marketing Director", "Sales Director"]
+    # Add more realistic contact names and titles
+    first_names = ["John", "Jane", "Mike", "Sarah", "David", "Lisa", "Alex", "Emma", "Chris", "Maria", 
+                   "Michael", "Jennifer", "Robert", "Jessica", "William", "Ashley", "James", "Emily", 
+                   "Christopher", "Amanda", "Daniel", "Stephanie", "Matthew", "Melissa", "Anthony", "Nicole"]
+    last_names = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez",
+                  "Hernandez", "Lopez", "Gonzalez", "Wilson", "Anderson", "Thomas", "Taylor", "Moore", "Jackson", "Martin"]
+    titles = ["CEO", "CTO", "VP Marketing", "Head of Sales", "Founder", "Product Manager", "Marketing Director", 
+              "Sales Director", "VP Engineering", "Chief Technology Officer", "VP Business Development", 
+              "Head of Product", "VP Operations", "Chief Marketing Officer", "VP Strategy"]
     
     # Create prospects with contact info
     prospects = []
@@ -34,7 +39,18 @@ def generate_prospects_for_campaign(icp_description: str, num_companies: int = 2
         first_name = random.choice(first_names)
         last_name = random.choice(last_names)
         title = random.choice(titles)
-        email = f"{first_name.lower()}.{last_name.lower()}@{company.website.split('//')[1]}"
+        
+        # Create more realistic email patterns
+        domain = company.website.split('//')[1].replace('www.', '')
+        email_patterns = [
+            f"{first_name.lower()}.{last_name.lower()}@{domain}",
+            f"{first_name.lower()}{last_name.lower()}@{domain}",
+            f"{first_name[0].lower()}{last_name.lower()}@{domain}",
+            f"{first_name.lower()}{last_name[0].lower()}@{domain}",
+            f"{first_name.lower()}@{domain}",
+            f"{last_name.lower()}@{domain}"
+        ]
+        email = random.choice(email_patterns)
         
         prospects.append({
             "name": f"{first_name} {last_name}",
