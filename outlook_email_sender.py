@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
-Simple email sender that works without Mailgun
-Uses SMTP for sending emails (Gmail, Outlook, etc.)
+Outlook/Hotmail email sender as alternative to Gmail
 """
 
 import smtplib
@@ -17,22 +16,21 @@ from dotenv import load_dotenv
 # Load environment variables from .env file
 load_dotenv()
 
-class SimpleEmailSender:
+class OutlookEmailSender:
     def __init__(self):
-        """Initialize with SMTP settings"""
-        # Gmail SMTP settings (you can change to your email provider)
-        self.smtp_server = "smtp.gmail.com"
+        """Initialize with Outlook SMTP settings"""
+        # Outlook SMTP settings
+        self.smtp_server = "smtp-mail.outlook.com"
         self.smtp_port = 587
-        self.sender_email = os.getenv("SENDER_EMAIL")  # Your email
-        self.sender_password = os.getenv("SENDER_PASSWORD")  # Your app password
+        self.sender_email = os.getenv("SENDER_EMAIL")
+        self.sender_password = os.getenv("SENDER_PASSWORD")
         
         if not self.sender_email or not self.sender_password:
             print("⚠️  Please set SENDER_EMAIL and SENDER_PASSWORD environment variables")
-            print("   For Gmail: Use an App Password (not your regular password)")
-            print("   Enable 2FA and generate App Password at: https://myaccount.google.com/apppasswords")
+            print("   For Outlook: Use your regular password (not App Password)")
     
     def send_email(self, to_email: str, subject: str, body: str) -> bool:
-        """Send email using SMTP"""
+        """Send email using Outlook SMTP"""
         try:
             # Create message
             message = MIMEMultipart()
@@ -126,7 +124,7 @@ Unsubscribe: https://yourapp.example.com/unsubscribe"""
 
 def main():
     """Example usage"""
-    sender = SimpleEmailSender()
+    sender = OutlookEmailSender()
     results = sender.send_campaign()
     
     print(f"\n📊 Final Results:")
